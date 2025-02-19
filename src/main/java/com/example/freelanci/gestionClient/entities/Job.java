@@ -2,6 +2,7 @@ package com.example.freelanci.gestionClient.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.engine.internal.Cascade;
 
 import java.util.Date;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Job {
     private Date deadline;
 
     private EtatProjet projectStatus; // Using the Enum for project status
-    @OneToMany(mappedBy = "job")
+    @OneToMany(cascade =CascadeType.ALL    ,mappedBy = "job" )
     private List<Review> reviews;
     // Enum for Project Status
     public enum EtatProjet {

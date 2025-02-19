@@ -50,4 +50,7 @@ public class JobService {
     public void deleteJob(Long jobId) {
         jobRepository.deleteById(jobId);
     }
+    public long countCompletedProjectsForClient(String clientName) {
+        return jobRepository.countByClientNameAndProjectStatus(clientName, Job.EtatProjet.TERMINER);
+    }
 }

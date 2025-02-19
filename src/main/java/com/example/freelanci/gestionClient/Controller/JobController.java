@@ -50,4 +50,8 @@ public class JobController {
         jobService.deleteJob(jobId);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/completedProjects/{clientName}")
+    public long getCompletedProjectsForClient(@PathVariable("clientName") String clientName) {
+        return jobService.countCompletedProjectsForClient(clientName);
+    }
 }
