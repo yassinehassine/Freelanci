@@ -1,9 +1,10 @@
 package com.example.freelanci.gestionClient.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.example.freelanci.gestionClient.entities.Job;
 import com.example.freelanci.gestionClient.repositories.JobRepository;
+import com.example.freelanci.gestionUser.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,40 +15,49 @@ public class JobService {
     @Autowired
     private JobRepository jobRepository;
 
-    // Create a new job
+    @Autowired
+    private UserService userService; // Pour récupérer l'utilisateur par ID
+
+    // Créer un nouveau job
     public Job createJob(Job job) {
-        return jobRepository.save(job);
+        if (job.getClient() != null) {
+            // On associe l'utilisateur au job via le client (ID de l'utilisateur)
+            job.setClient(job.getClient());  // Associe le client au job
+            return jobRepository.save(job);  // Sauvegarde du job avec l'utilisateur lié
+        }
+        return null;  // Retourner null si le client n'est pas trouvé
     }
 
-    // Get all jobs
+    // Obtenir tous les jobs
     public List<Job> getAllJobs() {
-        return jobRepository.findAll();
+        return jobRepository.findAll();  // Récupérer tous les jobs
     }
 
-    // Get a job by ID
+    // Obtenir un job par son ID
     public Optional<Job> getJobById(Long jobId) {
-        return jobRepository.findById(jobId);
+        return jobRepository.findById(jobId);  // Trouver un job par son ID
     }
 
-    // Update a job
+    // Mettre à jour un job
     public Job updateJob(Long jobId, Job jobDetails) {
         Job job = jobRepository.findById(jobId).orElse(null);
         if (job != null) {
+            // Mise à jour des informations du job avec les nouvelles données
             job.setTitle(jobDetails.getTitle());
             job.setDescription(jobDetails.getDescription());
             job.setBudget(jobDetails.getBudget());
             job.setCategory(jobDetails.getCategory());
             job.setCreatedAt(jobDetails.getCreatedAt());
             job.setDeadline(jobDetails.getDeadline());
-            job.setClientName(jobDetails.getClientName());
+            job.setClient(jobDetails.getClient());  // Met à jour l'utilisateur lié
             job.setProjectStatus(jobDetails.getProjectStatus());
-            return jobRepository.save(job);
+            return jobRepository.save(job);  // Sauvegarder les modifications
         }
-        return null;
+        return null;  // Si le job n'existe pas, retourner null
     }
 
-    // Delete a job
+    // Supprimer un job par son ID
     public void deleteJob(Long jobId) {
-        jobRepository.deleteById(jobId);
+        jobRepository.deleteById(jobId);  // Supprimer le job en fonction de l'ID
     }
 }

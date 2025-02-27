@@ -1,5 +1,6 @@
 package com.example.freelanci.gestionClient.entities;
 
+import com.example.freelanci.gestionUser.entities.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Setter
 @Entity
 public class Job {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long jobId;
@@ -21,19 +23,28 @@ public class Job {
     private String description;
     private float budget;
     private String category;
-    private String clientName;
+
+    // Foreign Key to User (client)
+    @ManyToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "id") // Relier à l'ID de User
+    private User client; // C'est la relation qui lie le Job à un utilisateur
+
     private Date createdAt;
     private Date deadline;
 
-    private EtatProjet projectStatus; // Using the Enum for project status
+    private EtatProjet projectStatus; // Enum pour l'état du projet
+
     @OneToMany(mappedBy = "job")
     private List<Review> reviews;
-    // Enum for Project Status
+
+    // Enum pour le statut du projet
     public enum EtatProjet {
         NEST_PAS_DEBUTE,
         EN_COURS,
         TERMINER
     }
+
+    // Getters et Setters
     public long getJobId() {
         return jobId;
     }
@@ -74,12 +85,12 @@ public class Job {
         this.category = category;
     }
 
-    public String getClientName() {
-        return clientName;
+    public User getClient() {
+        return client;
     }
 
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
+    public void setClient(User client) {
+        this.client = client;
     }
 
     public Date getCreatedAt() {
@@ -104,5 +115,13 @@ public class Job {
 
     public void setProjectStatus(EtatProjet projectStatus) {
         this.projectStatus = projectStatus;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }
