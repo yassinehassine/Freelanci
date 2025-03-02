@@ -29,26 +29,4 @@ public class FreelancerController {
 
     }
 
-    @PostMapping("/addFreelancer")
-    public Freelancer addFreelancer(@RequestBody Freelancer freelancer) {
-        return freelancerservice.addFreelancer(freelancer);
-
-    }
-
-    @DeleteMapping("deleteFreelancer/{idP}")
-    public void deleteFreelancer(@PathVariable long idP) {
-        freelancerservice.deleteFreelancer(idP);
-    }
-
-    @PutMapping("updateFreelancer/{id}")
-    public Freelancer updateFreelancer(@PathVariable long id, @RequestBody Freelancer freelancer) {
-        return freelancerservice.updateFreelancer(id, freelancer);
-    }
-    // Endpoint pour ajouter un document à un freelancer
-    @PostMapping("/{freelancerId}/documents")
-    public Freelancer addDocument(
-            @PathVariable Long freelancerId,
-            @RequestParam("file") MultipartFile file) throws IOException {
-        return freelancerservice.addDocumentToFreelancer(freelancerId, file);
-    }
 }

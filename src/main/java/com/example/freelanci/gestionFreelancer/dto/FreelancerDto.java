@@ -1,26 +1,20 @@
 package com.example.freelanci.gestionFreelancer.dto;
 
-import com.example.freelanci.gestionFreelancer.entities.Proposal;
-import com.example.freelanci.gestionFreelancer.entities.Work;
-import jakarta.persistence.OneToMany;
-
 import java.io.Serializable;
-import java.util.Set;
 
 public class FreelancerDto implements Serializable {
 
     private long idFreelancer;
-    private String Skills;
-    private String Domain;
+    private String email;
+    private String description;
     private int Views;
     private String documentPath;
     private double pourcentageAccepted;
 
-    public FreelancerDto(long idFreelancer, String skills, String domain, int views, double pourcentageAccepted) {
+    public FreelancerDto(long idFreelancer, String skills, String domain, double pourcentageAccepted) {
         this.idFreelancer = idFreelancer;
-        Skills = skills;
-        Domain = domain;
-        Views = views;
+        email = skills;
+        description = domain;
         this.pourcentageAccepted = pourcentageAccepted;
     }
 
@@ -32,20 +26,20 @@ public class FreelancerDto implements Serializable {
         this.idFreelancer = idFreelancer;
     }
 
-    public String getSkills() {
-        return Skills;
+    public String getEmail() {
+        return email;
     }
 
-    public void setSkills(String skills) {
-        Skills = skills;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getDomain() {
-        return Domain;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDomain(String domain) {
-        Domain = domain;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getViews() {

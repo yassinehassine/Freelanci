@@ -1,11 +1,8 @@
 package com.example.freelanci.gestionFreelancer.entities;
+import com.example.freelanci.gestionClient.entities.Job;
+import com.example.freelanci.gestionUser.entities.User;
 import jakarta.persistence.*;
 import lombok.*;
-import org.w3c.dom.stylesheets.LinkStyle;
-import java.io.Serializable;
-import java.util.Set;
-import java.util.List;
-import java.util.Date;
 
 @AllArgsConstructor
 @ToString
@@ -72,12 +69,30 @@ public class Proposal {
     private long Duration;
     private String Status; //accepted, declined , pending calcuul kadeh aandou pourcentage
     @ManyToOne
-    private Freelancer freelancer;
+    private User freelancer;
+    @ManyToOne
+    private Job job;
     public String getStatus() {
         return Status;
     }
 
     public void setStatus(String status) {
         this.Status = status;
+    }
+
+    public User getFreelancer() {
+        return freelancer;
+    }
+
+    public void setFreelancer(User freelancer) {
+        this.freelancer = freelancer;
+    }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
     }
 }

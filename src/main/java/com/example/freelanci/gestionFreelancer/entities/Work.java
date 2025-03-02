@@ -1,4 +1,5 @@
 package com.example.freelanci.gestionFreelancer.entities;
+import com.example.freelanci.gestionUser.entities.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.w3c.dom.stylesheets.LinkStyle;
@@ -31,7 +32,7 @@ public class Work {
     private Date Date;
     private String type;
     @ManyToOne
-    private Freelancer freelancer;
+    private User freelancer;
 
     public long getIdWork() {
         return idWork;
@@ -89,11 +90,11 @@ public class Work {
         type = type;
     }
 
-    public Freelancer getFreelancer() {
+    public User getFreelancer() {
         return freelancer;
     }
 
-    public void setFreelancer(Freelancer freelancer) {
+    public void setFreelancer(User freelancer) {
         this.freelancer = freelancer;
     }
 }

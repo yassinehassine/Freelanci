@@ -21,10 +21,7 @@ public class Freelancer {
     private String Domain;
     private int Views;
     private String documentPath;
-    @OneToMany(mappedBy="freelancer")
-    private Set<Proposal> Proposals;
-    @OneToMany(mappedBy="freelancer")
-    private Set<Work> Works;
+
 
     public long getIdFreelancer() {
         return idFreelancer;
@@ -58,21 +55,6 @@ public class Freelancer {
         Views = views;
     }
 
-    public Set<Proposal> getProposals() {
-        return Proposals;
-    }
-
-    public void setProposals(Set<Proposal> proposals) {
-        Proposals = proposals;
-    }
-
-    public Set<Work> getWorks() {
-        return Works;
-    }
-
-    public void setWorks(Set<Work> works) {
-        Works = works;
-    }
 
     public String getDocumentPath() {
         return documentPath;
