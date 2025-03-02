@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public class JobService {
 
-    @Autowired
+    //@Autowired
     private JobRepository jobRepository;
 
     // Create a new job

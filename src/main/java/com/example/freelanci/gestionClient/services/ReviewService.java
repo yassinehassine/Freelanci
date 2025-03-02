@@ -13,10 +13,10 @@ import java.util.Optional;
 @Service
 public class ReviewService {
 
-    @Autowired
+    //@Autowired
     private ReviewRepository reviewRepository;
 
-    @Autowired
+    //@Autowired
     private JobRepository jobRepository;  // Injecting the Job repository to access jobs by jobId
 
     // Create a new review

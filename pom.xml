@@ -34,10 +34,10 @@
         </dependency>
 
         <!-- Spring Boot GraphQL Dependency -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-graphql</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-graphql</artifactId>-->
+<!--        </dependency>-->
 
         <!-- MySQL Database Connector Dependency -->
         <dependency>
@@ -47,8 +47,7 @@
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.26</version> <!-- Latest stable version -->
+            <artifactId>lombok</artifactId><!-- Latest stable version -->
             <scope>provided</scope>
         </dependency>
 
@@ -71,12 +70,19 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Springdoc OpenAPI UI for Automatic API Documentation Generation -->
+        <!-- Weka pour le machine learning -->
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.1.0</version>
+            <groupId>nz.ac.waikato.cms.weka</groupId>
+            <artifactId>weka-stable</artifactId>
+            <version>3.8.6</version>
         </dependency>
+
+        <!-- Springdoc OpenAPI UI for Automatic API Documentation Generation -->
+<!--        <dependency>-->
+<!--            <groupId>org.springdoc</groupId>-->
+<!--            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>-->
+<!--            <version>2.1.0</version>-->
+<!--        </dependency>-->
 
         <!-- Spring Session Core for Session Management -->
         <dependency>
@@ -99,7 +105,7 @@
                 <configuration>
                     <annotationProcessorPaths>
                         <path>
-                            <groupId>org.projectlombok</groupId>
+                            <groupId>org.project-lombok</groupId>
                             <artifactId>lombok</artifactId>
                         </path>
                     </annotationProcessorPaths>
