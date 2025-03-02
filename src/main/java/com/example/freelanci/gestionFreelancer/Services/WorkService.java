@@ -15,6 +15,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class WorkService implements IWorkService {
+    @Autowired
     WorkRepository wrep;
     @Override
     public List<Work> getAllWorks() {
