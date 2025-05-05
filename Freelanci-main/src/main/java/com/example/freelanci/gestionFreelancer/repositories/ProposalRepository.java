@@ -20,7 +20,10 @@ public interface ProposalRepository extends JpaRepository<Proposal,Long> {
     List<Proposal> findByFreelancer(Freelancer freelancer); //No property 'id' found for type 'Freelancer'
     @Query("SELECT DISTINCT p.freelancer FROM Proposal p WHERE p.job.jobId = :jobId")
     List<User> findFreelancersByJobId(@Param("jobId") Long jobId);
+    @Query("SELECT p.freelancer.id FROM Proposal p WHERE p.job.jobId = :jobId")
+    List<Long> findFreelancerIdsByJobId(@Param("jobId") Long jobId);
 
+    List<Proposal> findByJob_JobId(Long jobId);
 }
 
 

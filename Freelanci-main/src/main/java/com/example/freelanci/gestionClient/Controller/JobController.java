@@ -6,6 +6,10 @@ import com.example.freelanci.gestionClient.dto.UpdateJobDto;
 import com.example.freelanci.gestionClient.entities.Job;
 import com.example.freelanci.gestionClient.services.JobFilterService;
 import com.example.freelanci.gestionClient.services.JobService;
+import com.example.freelanci.gestionFreelancer.dto.FreelancerDto;
+import com.example.freelanci.gestionFreelancer.entities.Freelancer;
+import com.example.freelanci.gestionFreelancer.entities.Proposal;
+import com.example.freelanci.gestionFreelancer.repositories.FreelancerRepository;
 import com.example.freelanci.gestionFreelancer.repositories.ProposalRepository;
 import com.example.freelanci.gestionUser.entities.User;
 
@@ -17,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,16 +34,22 @@ public class JobController {
     private final JobService jobService;
     private final ProposalRepository proposalRepository;
     private final JobFilterService jobFilterService;
+    @Autowired
+    private FreelancerRepository freelancerRepository;
+
 
     @Autowired
     public JobController(
             JobService jobService,
             ProposalRepository proposalRepository,
             JobFilterService jobFilterService
+
+
     ) {
         this.jobService = jobService;
         this.proposalRepository = proposalRepository;
         this.jobFilterService = jobFilterService;
+
     }
 
     // 🔹 CREATE
@@ -88,12 +99,25 @@ public class JobController {
     }
 
     // 🔹 FREELANCERS FOR A JOB
-    @GetMapping("/{jobId}/freelancers")
-    public ResponseEntity<List<User>> getFreelancers(@PathVariable Long jobId) {
-        List<User> list = proposalRepository.findFreelancersByJobId(jobId);
-        return ResponseEntity.ok(list);
-    }
 
+    @GetMapping("/{jobId}/freelancers")
+    public ResponseEntity<List<FreelancerDto>> getFreelancers(@PathVariable Long jobId) {
+        List<Long> freelancerIds = proposalRepository.findFreelancerIdsByJobId(jobId);
+
+        List<Freelancer> freelancers = freelancerRepository.findByIds(freelancerIds);
+
+        List<FreelancerDto> dtos = freelancers.stream()
+                .map(f -> new FreelancerDto(
+                        f.getIdFreelancer(),
+                        f.getSkills(),
+                        f.getDomain(),
+                        f.getViews(),
+                        f.getDocumentPath()
+                ))
+                .toList();
+
+        return ResponseEntity.ok(dtos);
+    }
     // 🔹 FILTER BY CLIENT & DATE
     @GetMapping("/user/{clientId}")
     public ResponseEntity<List<JobResponse>> getByClient(

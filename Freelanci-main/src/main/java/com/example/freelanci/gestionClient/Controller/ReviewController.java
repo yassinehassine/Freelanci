@@ -1,6 +1,7 @@
 package com.example.freelanci.gestionClient.Controller;
 
 import com.example.freelanci.gestionClient.dto.ReviewDTO;
+import com.example.freelanci.gestionClient.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,8 @@ public class ReviewController {
 
     @Autowired
     private ReviewService reviewService;
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     // Create a new review
     @PostMapping
@@ -53,5 +56,11 @@ public class ReviewController {
     public ResponseEntity<Void> deleteReview(@PathVariable("id") Long reviewId) {
         reviewService.deleteReview(reviewId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/job/{jobId}")
+    public ResponseEntity<List<ReviewDTO>> getReviewsByJobId(@PathVariable Long jobId) {
+        List<ReviewDTO> reviews = reviewRepository.findAllByJobId(jobId);
+        return ResponseEntity.ok(reviews);
     }
 }

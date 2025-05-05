@@ -10,12 +10,23 @@ public class FreelancerDto implements Serializable {
     private int Views;
     private String documentPath;
     private double pourcentageAccepted;
+    private String skills;
+    private String domain;
+
 
     public FreelancerDto(long idFreelancer, String skills, String domain, double pourcentageAccepted) {
         this.idFreelancer = idFreelancer;
-        email = skills;
-        description = domain;
+        this.skills = skills;
+        this.domain = domain;
         this.pourcentageAccepted = pourcentageAccepted;
+    }
+    public FreelancerDto(long idFreelancer, String skills, String domain, int views, String documentPath) {
+        this.idFreelancer = idFreelancer;
+        this.skills = skills;
+        this.domain = domain;
+        this.Views = views;
+        this.documentPath = documentPath;
+
     }
 
     public long getIdFreelancer() {
@@ -65,4 +76,20 @@ public class FreelancerDto implements Serializable {
     public void setPourcentageAccepted(double pourcentageAccepted) {
         this.pourcentageAccepted = pourcentageAccepted;
     }
+    public String getSkills() {
+        return skills;
+    }
+
+    public void setSkills(String skills) {
+        this.skills = skills;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
 }

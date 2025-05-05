@@ -6,7 +6,6 @@ import org.w3c.dom.stylesheets.LinkStyle;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -14,6 +13,7 @@ import java.util.Set;
 @Getter
 @Entity
 public class Freelancer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idFreelancer;
