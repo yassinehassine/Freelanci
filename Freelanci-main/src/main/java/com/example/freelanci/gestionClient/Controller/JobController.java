@@ -8,20 +8,19 @@ import com.example.freelanci.gestionClient.services.JobFilterService;
 import com.example.freelanci.gestionClient.services.JobService;
 import com.example.freelanci.gestionFreelancer.dto.FreelancerDto;
 import com.example.freelanci.gestionFreelancer.entities.Freelancer;
-import com.example.freelanci.gestionFreelancer.entities.Proposal;
 import com.example.freelanci.gestionFreelancer.repositories.FreelancerRepository;
 import com.example.freelanci.gestionFreelancer.repositories.ProposalRepository;
-import com.example.freelanci.gestionUser.entities.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,6 +33,7 @@ public class JobController {
     private final JobService jobService;
     private final ProposalRepository proposalRepository;
     private final JobFilterService jobFilterService;
+    private final String FILE_DIRECTORY = "src/main/resources/";
     @Autowired
     private FreelancerRepository freelancerRepository;
 
@@ -144,4 +144,32 @@ public class JobController {
         dto.setProjectStatus(job.getProjectStatus() != null ? job.getProjectStatus().name() : null);
         return dto;
     }
+
+    @GetMapping("/files/{documentName}")
+    public ResponseEntity<Resource> serveFile(@PathVariable String documentName) {
+        try {
+
+
+            // Path to the directory where PDFs are stored (inside resources folder)
+            String baseDirectory = "C:/Users/yassine/Desktop/freelanci/Freelanci-main/src/main/resources/";  // Adjust this based on where you store your files
+            Path filePath = Paths.get(baseDirectory, documentName).normalize();  // Resolve the full file path
+
+            // Create a resource from the file
+            Resource resource = new UrlResource(filePath.toUri());
+
+            // Check if the file exists and is readable
+            if (resource.exists() && resource.isReadable()) {
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+                        .contentType(MediaType.APPLICATION_PDF)  // Set content type as PDF
+                        .body(resource);  // Return the resource (file content)
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();  // Return 404 if file doesn't exist
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();  // Handle errors
+        }
+    }
+
+
 }
