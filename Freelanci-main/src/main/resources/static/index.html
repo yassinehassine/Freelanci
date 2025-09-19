@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelanci - Test d'Internationalisation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .language-buttons {
+            text-align: center;
+            margin: 20px 0;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .current-language {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #e9f7ef;
+            border-radius: 5px;
+            border-left: 4px solid #28a745;
+        }
+        .api-test {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+        .api-response {
+            background-color: #f1f3f4;
+            padding: 10px;
+            border-radius: 3px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 Test d'Internationalisation Freelanci</h1>
+        
+        <div class="current-language">
+            <h3>Langue actuelle:</h3>
+            <div id="currentLanguageInfo">Chargement...</div>
+        </div>
+        
+        <div class="language-buttons">
+            <button onclick="switchToFrench()">🇫🇷 Français</button>
+            <button onclick="switchToEnglish()">🇬🇧 English</button>
+            <button onclick="getAvailableLanguages()">📋 Langues disponibles</button>
+        </div>
+        
+        <div class="api-test">
+            <h3>Tests API:</h3>
+            <button onclick="testUserAPI()">Tester API Utilisateurs</button>
+            <button onclick="getCurrentLanguage()">Info langue actuelle</button>
+        </div>
+        
+        <div class="api-response" id="apiResponse">
+Les réponses API apparaîtront ici...
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+        
+        // Function to display API responses
+        function displayResponse(data) {
+            document.getElementById('apiResponse').textContent = JSON.stringify(data, null, 2);
+        }
+        
+        // Function to update current language display
+        function updateCurrentLanguage(data) {
+            document.getElementById('currentLanguageInfo').innerHTML = `
+                <strong>Code:</strong> ${data.locale}<br>
+                <strong>Nom:</strong> ${data.language}<br>
+                <strong>Message:</strong> ${data.message}<br>
+                <strong>Bouton:</strong> ${data.switchMessage}
+            `;
+        }
+        
+        // Get current language
+        async function getCurrentLanguage() {
+            try {
+                const response = await fetch(`${API_BASE}/language/current`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                updateCurrentLanguage(data);
+                displayResponse(data);
+            } catch (error) {
+                displayResponse({ error: error.message });
+            }
+        }
+        
+        // Switch to French
+        async function switchToFrench() {
+            try {
+                const response = await fetch(`${API_BASE}/language/switch/french`, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                displayResponse(data);
+                if (data.success) {
+                    updateCurrentLanguage(data);
+                }
+            } catch (error) {
+                displayResponse({ error: error.message });
+            }
+        }
+        
+        // Switch to English
+        async function switchToEnglish() {
+            try {
+                const response = await fetch(`${API_BASE}/language/switch/english`, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                displayResponse(data);
+                if (data.success) {
+                    updateCurrentLanguage(data);
+                }
+            } catch (error) {
+                displayResponse({ error: error.message });
+            }
+        }
+        
+        // Get available languages
+        async function getAvailableLanguages() {
+            try {
+                const response = await fetch(`${API_BASE}/language/available`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                displayResponse(data);
+            } catch (error) {
+                displayResponse({ error: error.message });
+            }
+        }
+        
+        // Test user API with current language
+        async function testUserAPI() {
+            try {
+                const response = await fetch(`${API_BASE}/users`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                displayResponse(data);
+            } catch (error) {
+                displayResponse({ error: error.message });
+            }
+        }
+        
+        // Load current language on page load
+        window.onload = function() {
+            getCurrentLanguage();
+        };
+    </script>
+</body>
+</html>
